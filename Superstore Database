@@ -1,0 +1,20 @@
+#Orders items in store by price.
+Select item_name, price
+FROM superstore
+ORDER BY price ASC;
+
+
+#Displays the maximum price in the store database
+Select MAX(price)
+from superstore;
+
+#Displays the price of Kitchen Supplies
+Select avg(price)
+from superstore
+Where category like 'Kitchen Supplies';
+
+
+#Displays the number of Air Purifier's in stock. 
+Select stock_quantity
+From superstore
+Where item_name like 'Air Purifier';
