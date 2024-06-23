@@ -1,0 +1,252 @@
+#This project demonstrates the creation of an online shopping cart database by way of
+proper database design, as well as writting a few SQL Queries to answer questions about the 
+data found in the database.
+
+
+
+
+CREATE Database Shopping_Cart;
+
+Create table Users(
+userid INT NOT NULL,
+phoneNumber Varchar(200),
+name varchar(200),
+PRIMARY KEY(userid)
+);
+Create table Sellers(
+userid INT NOT NULL,
+Primary Key(userid), 
+Foreign Key(userid)
+References Users(userid));
+
+Create table Buyers(
+userid INT NOT NULL,
+Primary Key(userid), 
+Foreign Key(userid)
+References Users(userid));
+
+Create table Brands(
+brand_Name varchar(34) NOT NULL,
+primary key(brand_Name)
+);
+
+Create table Items(
+item_id INT NOT NULL, 
+brand Varchar (55) NOT NULL,
+name varchar(100),
+price INT,
+quantity INT, 
+primary key(item_id),
+foreign key(brand) references Brands(brand_Name)
+);
+Create table CreditDebitCard(
+cardNumber varchar(200) NOT NULL, 
+userid INT NOT NULL, 
+company varchar(200), 
+Primary Key(cardNumber),
+Foreign Key(userid) references Users(userid)
+);
+Create table Address(
+address_id INT NOT NULL,
+userid INT NOT NULL,
+name varchar(40),
+phoneNumber varchar(40),
+city varchar(80),
+state varchar(80),
+streetaddr varchar(80),
+Primary Key(address_id),
+Foreign Key (userid) References Users(userid)
+);
+
+Create table orders(
+orderNumber INT NOT NULL,
+paymentState Varchar(40),
+total_amount INT, 
+Primary Key (orderNumber)
+);
+
+Create table Items_Ordered(
+product_id INT NOT NULL,
+item_id INT NOT NULL,
+price INT,
+Time_Ordered DATE,
+Primary Key(product_id),
+Foreign Key(item_id) References Items(item_id)
+);
+
+Create table Payments (
+orderNumber INT NOT NULL,
+cardNumber Varchar(40) NOT NULL, 
+time_of_paymnt DATE,
+Primary Key (orderNumber, cardNumber), 
+Foreign Key(cardNumber) References CreditDebitCard(cardNumber),
+Foreign Key(orderNumber) References orders(orderNumber)
+);
+
+
+
+
+Create table Deliveries (
+address_id INT NOT NULL,
+orderNumber INT NOT NULL,
+Time_Delivered DATE,
+Primary Key (address_id, orderNumber),
+Foreign Key(address_id) References Address(address_id),
+Foreign Key(orderNumber) References orders(orderNumber)
+);
+
+#Now we insert some data into the database:
+Insert into Users (userid, phoneNumber, name) Values (1, "233-432-5467" , "John Doe");
+Insert into Users (userid, phoneNumber, name) Values (2, "615-415-7562" , "Jared Stillman");
+Insert into Users (userid, phoneNumber, name) Values (3, "205-322-6688" , "Filip Forsberg");
+Insert into Users (userid, phoneNumber, name) Values (4, "245-312-5679" , "Harold Thomas");
+Insert into Users (userid, phoneNumber, name) Values (5, "455-762-3341" , "Mecole Watkins");
+Insert into Users (userid, phoneNumber, name) Values (6, "605-372-6328" , "Robert Woods");
+Insert into Users (userid, phoneNumber, name) Values (7, "205-222-6385" , "Derrick Canha");
+Insert into Users (userid, phoneNumber, name) Values (8, "205-363-9832" , "Jerome Flowers");
+Insert into Users (userid, phoneNumber, name) Values (9, "512-444-6211" , "Andre Cole");
+Insert into Users (userid, phoneNumber, name) Values (10, "215-322-6218" , "Mark Riley");
+Insert into Users (userid, phoneNumber, name) Values (11, "205-319-5588" , "Justin Walker");
+Insert into Users (userid, phoneNumber, name) Values (12, "233-567-7711" , "Rachel Robins");
+Insert into Users (userid, phoneNumber, name) Values (13, "205-322-4560" , "Mitch Wilson");
+Insert into Users (userid, phoneNumber, name) Values (14, "205-276-6651" , "Filip Jones");
+Insert into Users (userid, phoneNumber, name) Values (15, "215-276-3333" , "Chase McCabe");
+Insert into Users (userid, phoneNumber, name) Values (16, "205-111-6651" , "Joe Robert");
+Insert into Users (userid, phoneNumber, name) Values (17, "777-276-6651" , "Alex Thomas");
+Insert into Users (userid, phoneNumber, name) Values (18, "205-276-1209" , "Ryan Reaves");
+Insert into Users (userid, phoneNumber, name) Values (19, "205-276-3811" , "Aaron Jones");
+Insert into Users (userid, phoneNumber, name) Values (20, "205-882-6651" , "Jason Jaso");
+
+#We shall insert buyes and selers last. Now, insert into address
+INSERT INTO address VALUES (1, 4, "Joe Ronish", "333-461-2678", "Ontario", "Canada", "287 King Street");
+INSERT INTO address VALUES (2, 7, "Carol Ben", "333-908-2678", "Franklin", "Tennesee", "12 First Street");
+INSERT INTO address VALUES (3, 12, "Ron Tate", "333-461-9376", "Boise", "Idaho", "654 Seventh Street");
+INSERT INTO address VALUES (4, 8, "Keegan Rhodes", "871-461-2678", "Lansing", "Michigan", "812 College Road");
+INSERT INTO address VALUES (5, 2, "Lee John", "333-187-2678", "Ames", "Iowa", "82 County Road 44");
+INSERT INTO address VALUES (6, 9, "Tanner Mann", "333-461-2508", "Neward", "New York", "300 Long Street");
+INSERT INTO address VALUES (7, 10, "Don Snitker", "812-461-2678", "Milwaukee", "Wisconsin", "22 Legends Drive");
+INSERT INTO address VALUES (8, 3, "Paul Young", "333-714-2678", "Lexington", "Kentucky", "55 Straight Avenue");
+INSERT INTO address VALUES (9, 1, "Chris Rynes", "333-461-9999", "Alberta", "Canada", "81 Third Avenue");
+INSERT INTO address VALUES (10, 11, "John Hynes", "333-461-1032", "Manitoba", "Canada", "910 King Street");
+INSERT INTO address VALUES (11, 13, "Andrew King", "205-461-2678", "Quebec", "Canada", "417 Second Street");
+INSERT INTO address VALUES (12, 5, "Henry Ruggs", "333-461-8123", "Vancouver", "Canada", "P.O. Box 321");
+
+
+INSERT INTO CreditDebitCard VALUES('4902 9212 3402 8831',5,'VISA');
+INSERT INTO CreditDebitCard VALUES('4209 6712 1111 8711',2,'American Express');
+INSERT INTO CreditDebitCard VALUES('3198 5512 8254 9156',3,'Mastercard');
+INSERT INTO CreditDebitCard VALUES('5812 0128 7199 2930',1,'VISA');
+INSERT INTO CreditDebitCard VALUES('3671 9212 0485 8141',6,'Discover');
+INSERT INTO CreditDebitCard VALUES('2839 8219 3728 2933',9,'VISA');
+INSERT INTO CreditDebitCard VALUES('5829 2945 3828 0128',7,'Americn Express');
+
+
+Insert into Brands Values("Bose");
+Insert into Brands Values("Dell");
+Insert into Brands Values("Apple");
+Insert into Brands Values("Microsoft");
+Insert Into Brands Values("Canon");
+Insert into Brands Values ("Beats");
+
+#Data inserted up to this point.
+
+Insert Into Items Values(1,"Apple", "MacBook", 3, 400);
+Insert Into Items Values(2,"Bose", "Headphones", 9, 100);
+Insert Into Items Values(3,"Dell", "Laptop", 7, 600);
+Insert Into Items Values(4,"Microsoft", "Surface Pro", 19, 327);
+Insert Into Items Values(5,"Canon", "Telescope", 6, 90);
+Insert Into Items Values(6,"Beats", "Special Earbuds", 10, 76);
+Insert Into Items Values(7,"Microsoft", "Xbox 360", 1, 520);
+Insert Into Items Values(8,"Apple", "Apple Watch", 6, 210);
+Insert Into Items Values(9,"Apple", "iPhone", 22, 700);
+Insert Into Items Values(10,"Apple", "iPad", 8, 1000);
+
+
+#Now insert orders
+Insert into Orders Values(555678, 'Paid', 300);
+Insert into Orders Values(222612, 'Unpaid', 120);
+Insert into Orders Values(910333, 'Paid', 30);
+Insert into Orders Values(692410, 'Paid', 38);
+Insert into Orders Values(848567, 'Unpaid', 40);
+Insert Into Orders Values(555689, 'Paid', 180);
+Insert Into Orders Values(234199, 'Unpaid', 900);
+Insert Into Orders Values(890432, 'Paid', 200);
+Insert Into Orders Values(321903, 'Paid', 127);
+Insert Into Orders Values(699420, 'Unpaid', 420);
+#Insert into items_orderd:
+
+Insert into Items_Ordered Values(1,1,400, '2015-09-12');
+Insert into Items_Ordered Values(2,2,100, '2019-11-15');
+Insert into Items_Ordered Values(3,3,600, '2020-10-12');
+Insert into Items_Ordered Values(4,4,327, '2021-05-12');
+Insert into Items_Ordered Values(5,5,90, '2022-04-16');
+Insert into Items_Ordered Values(6,6,76, '2017-04-17');
+Insert into Items_Ordered Values(7,7,520, '2019-10-12');
+
+#Now inssertt payments.
+
+Insert into Payments Values(555678, '4902 9212 3402 8831', '2016-08-23');
+Insert into Payments Values(222612, '4209 6712 1111 8711', '2017-10-12');
+Insert into Payments Values(910333, '3198 5512 8254 9156', '2019-07-14');
+Insert into Payments Values(692410, '5812 0128 7199 2930', '2020-03-13');
+Insert into Payments Values(848567,'3671 9212 0485 8141', '2021-09-23');
+
+
+Insert into Buyers Values(2);
+Insert into Buyers Values(4);
+Insert into Buyers Values(5);
+Insert into Buyers Values(9);
+Insert into Buyers Values(11);
+Insert into Buyers Values(3);
+Insert into Buyers Values(12);
+
+Insert into Buyers  Values(10);
+Insert into Sellers Values(10);
+Insert into Sellers Values(1);
+Insert into Sellers Values(3);
+Insert into Sellers Values(9);
+Insert into Sellers Values(17);
+Insert into Sellers Values(19);
+Insert into Sellers Values(14);
+Insert into Sellers Values(8);
+#Data now inserted up to tbis point
+
+#Finally we will insert deliveries.
+
+
+Insert into Deliveries values(1,555678, '2018-09-12');
+Insert into Deliveries values(2,222612, '2020-03-12');
+Insert into Deliveries values(3,910333, '2018-06-17');
+Insert into Deliveries values(4,692410, '2022-11-12');
+Insert into Deliveries values(5, 848567, '2020-04-13');
+
+#Now run some queries
+#Select all the items madde by Apple.
+Select * from items 
+where brand like 'Apple';
+
+#Lets count all the users whose name  start with an M
+Select COUNT(userid) as "M people" from Users where users.name LIKE 'M%';
+
+
+#Select all the items whose price is more than 100 dollars.
+Select * from items, items_ordered where
+items.item_id=Items_Ordered.item_id AND
+Items_Ordered.price>100;  
+
+
+#Lets select information of ordered that where delivered on 2020-04-13.
+
+Select * from Address 
+where address_id IN(Select address_id from Deliveries where Time_Delivered>'2018-06-17');
+
+#Creae a view of orders that are unpaid and cost more than 50 dollars.
+
+Create view Costs AS
+Select * from orders where paymentState='Unpaid'
+AND total_amount > 50;
+
+#Create view of all of the items where the price is above the average price.
+Create view Items_Above_Average AS
+Select * from Items 
+where price > (Select AVG(price) FROM Items);
